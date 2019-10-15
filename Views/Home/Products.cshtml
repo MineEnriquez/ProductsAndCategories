@@ -1,0 +1,40 @@
+<div class="text-center">
+    <h1 class="display-4"> <a href="/Products">Products</a> | Products </h1> 
+</div>
+@model ProductsPageModel
+
+<div class="container wrapper">
+  <div class="row">
+    <div class="col-sm">
+      <!-- ****Post**** -->
+      <h3>New Product</h3>
+      <form asp-action="/Products" method="post">
+            <div>
+                <span class="ValidationError" asp-validation-for="OneProduct.Name"></span> <br>
+                <label class="InputLabel" asp-for="OneProduct.Name"></label>
+                <input class="InputField" asp-for="OneProduct.Name">
+            </div>
+            <div>
+                <span class="ValidationError" asp-validation-for="OneProduct.Description"></span> <br>
+                <label class="InputLabel" asp-for="OneProduct.Description"></label>
+                <input class="InputField" asp-for="OneProduct.Description">
+            </div>
+            <div>
+                <span class="ValidationError" asp-validation-for="OneProduct.Price"></span> <br>
+                <label class="InputLabel" asp-for="OneProduct.Price"></label>
+                <input class="InputField" asp-for="OneProduct.Price">
+            </div>
+            <input type="submit" value="Create">
+      </form>
+    </div>
+    <div class="col-sm">
+      <!-- ****Get ********** -->
+    <h3>Existing Products</h3>
+    <div class="divider"></div>
+    @foreach (Product prod in @Model.Products)
+      {
+       <h3> <a href="/Products/@prod.ProductId">@prod.Name</a></h3>
+      }
+    </div>
+  </div>
+</div>

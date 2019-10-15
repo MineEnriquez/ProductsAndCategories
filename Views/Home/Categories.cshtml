@@ -1,0 +1,31 @@
+<div class="text-center">
+    <h1 class="display-4"> <a href="/Products">Products</a> | Categories </h1> 
+</div>
+@using ProductsAndCategories.Models
+@model CategoriesPageModel
+
+<div class="container wrapper">
+  <div class="row">
+    <div class="col-sm">
+      <!-- ****Post**** -->
+      <h3>New Category</h3>
+      <form asp-action="/Categories" method="post">
+            <div>
+                <span class="ValidationError" asp-validation-for="OneCategory.Name"></span> <br>
+                <label class="InputLabel" asp-for="OneCategory.Name"></label>
+                <input class="InputField" asp-for="OneCategory.Name">
+            </div>
+            <input type="submit" value="Create">
+      </form>
+    </div>
+    <div class="col-sm">
+      <!-- ****Get ********** -->
+    <h3>Existing Categories</h3>
+    <div class="divider"></div>
+    @foreach (Category cate in @Model.Categories)
+      {
+       <h3> <a href="/Categories/@cate.CategoryId">@cate.Name</a></h3>
+      }
+    </div>
+  </div>
+</div>
