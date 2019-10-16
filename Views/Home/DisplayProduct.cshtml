@@ -1,9 +1,36 @@
-<div class="text-center">
-    <h1 class="display-4"> Products | <a href="/Categories">Categories</a>  </h1> 
-</div>
 @using ProductsAndCategories.Models
 @model Product
+<div class="text-center">
+    <h1> @Model.Name </h1>
+</div>
+<div class="text-center">
+    <h1 class="display-4"> <a href="/Products">Products</a> | <a href="/Categories">Categories</a> </h1> 
+</div>
 
 <div class="container wrapper">
-placeholder
+  <div class="row">
+    <div class="col-sm">
+        <!-- ****Get ********** -->
+        <h3>Categories</h3>
+        <div class="divider"></div>
+        @foreach(Association cate in @Model.ListOfAssociations)
+        {
+          <p>@cate.AssociatedCategory.Name</p>
+        }
+    </div>
+    <div class="col-sm">
+      <!-- ****Post**** -->
+      <h3>Add Category</h3>
+      <form action="/AddAssociation" method="post">
+          <select name="AnId">
+              @foreach (Category cate in ViewBag.Categories)
+                {
+                  <option value="@cate.CategoryId">@cate.CategoryId @cate.Name</option>
+                }
+            </select>  
+          <input type="hidden" asp-for="ProductId" value="@Model.ProductId">
+            <input  type="submit" value="Add">
+      </form>
+    </div>
+  </div>
 </div>

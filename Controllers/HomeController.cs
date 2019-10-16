@@ -188,7 +188,7 @@ namespace ProductsAndCategories.Controllers
         }
 
 
-        [Route("Products/{ProductId}")]
+        [Route("Products/{_prodId}")]
         [HttpGet]
         public IActionResult DisplayProduct(int _prodId)
         {
@@ -197,18 +197,32 @@ namespace ProductsAndCategories.Controllers
             .ThenInclude(s => s.AssociatedCategory)
             .FirstOrDefault(p => p.ProductId== _prodId);
 
-            //information about the product:
-            //product info + associated Categories.
-            //Do I need to send the actual Product object?
+            var prodCategories = myProduct.ListOfAssociations.Select(a => a.AssociatedCategory);
+            foreach( var x in prodCategories)
+            {
+                Console.WriteLine(x);
+            }
 
             List<int> associated = myProduct.ListOfAssociations.Select(a=>a.CategoryId).ToList();
-
-
-            // var cateList = dbContext.Categories.ToList().Except(associated).ToList();
-            
             List<Category> cateList = dbContext.Categories.Where(c => !associated.Contains(c.CategoryId)).ToList();
 
+            ViewBag.Categories = cateList;
             return View("DisplayProduct", myProduct);
+        }
+
+        [Route("AddAssociation")]
+        [HttpPost]
+        public IActionResult AddAnAssocitationToTheProduct(int AnId, int ProductId)
+        {
+            Association entry = new Association();
+            entry.CategoryId = AnId;
+            entry.ProductId = ProductId;
+
+            dbContext.Associations.Add(entry);
+            dbContext.SaveChanges();
+            string redirectTo = "Products/" + ProductId;
+            return Redirect(redirectTo);
+
         }
 
 
